@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Birthday from './components/Birthday';
 import Employees from './components/Employees';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-    <Employees />
+    <div className="grid">
+      <Employees />
+      <Birthday />
+    </div>
   </React.StrictMode>,
   document.getElementById('root'),
 );
