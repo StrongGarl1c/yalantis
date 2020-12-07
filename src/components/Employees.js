@@ -7,34 +7,34 @@ function Employees() {
   // const [Checked, setChecked] = useState({
   //   isChecked: false,
   // });
-  // const alphabet = [
-  //   'A',
-  //   'B',
-  //   'C',
-  //   'D',
-  //   'E',
-  //   'F',
-  //   'G',
-  //   'H',
-  //   'I',
-  //   'J',
-  //   'K',
-  //   'L',
-  //   'M',
-  //   'N',
-  //   'O',
-  //   'P',
-  //   'Q',
-  //   'R',
-  //   'S',
-  //   'T',
-  //   'U',
-  //   'V',
-  //   'W',
-  //   'X',
-  //   'Y',
-  //   'Z',
-  // ];
+  const alphabet = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z',
+  ];
   useEffect(() => {
     fetch('https://yalantis-react-school-api.yalantis.com/api/task0/users')
       .then((response) => {
@@ -69,16 +69,19 @@ function Employees() {
   }
   sortedArray.sort(compare);
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
-    return <div>Loading...</div>;
-  } else {
+  // insert by lastName by alphabet
+  function filterItems(arr, char) {
+    return arr.filter(function (el) {
+      return el.lastName[0] === char;
+    });
+  }
+
+  const render = alphabet.map((item, index) => {
     return (
       <div>
-        <h3>Employees</h3>
+        <h3 key={index}>{item}</h3>
         <ul>
-          {sortedArray.map((employee) => (
+          {filterItems(sortedArray, item).map((employee) => (
             <li key={employee.id}>
               <input type="checkbox" />
               {employee.lastName} {employee.firstName}
@@ -87,11 +90,32 @@ function Employees() {
         </ul>
       </div>
     );
+  });
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  } else if (!isLoaded) {
+    return <div>Loading...</div>;
+  } else {
+    return (
+      <div>
+        <h3>Employees</h3>
+        <div className="alphabet">{render}</div>
+      </div>
+    );
   }
 }
 export default Employees;
 
 /*
+                <ul>
+                  {sortedArray.map((employee) => (
+                    <li key={employee.id}>
+                      <input type="checkbox" />
+                      {employee.lastName} {employee.firstName}
+                    </li>
+                  ))}
+                </ul>
 
         <div className="alphabet">
           {alphabet.map((item, index, string) => {
