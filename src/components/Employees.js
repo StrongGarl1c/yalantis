@@ -4,9 +4,7 @@ function Employees() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [employees, setEmployees] = useState([]);
-  // const [Checked, setChecked] = useState({
-  //   isChecked: false,
-  // });
+
   const alphabet = [
     'A',
     'B',
@@ -76,6 +74,42 @@ function Employees() {
     });
   }
 
+  // test hook
+
+  // local storage
+  useEffect(() => {
+    const data = localStorage.getItem('items');
+    if (data) {
+      setEmployees(JSON.parse(data));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('items', JSON.stringify(employees));
+  });
+
+  // add new item
+  function myChangeHandler(event) {
+    event.preventDefault();
+    let name = event.target.name;
+    let val = event.target.checked;
+    if (val === true) {
+      const newItems = [...employees, { name, val }];
+      setEmployees(newItems);
+    } else {
+      removeItem();
+    }
+  }
+
+  // remove item
+  const removeItem = () => {
+    const newItems = [...employees];
+    newItems.splice(-1, 1);
+    setEmployees(newItems);
+  };
+
+  // end test hook
+
   const render = alphabet.map((item, index) => {
     return (
       <div>
@@ -83,7 +117,7 @@ function Employees() {
         <ul>
           {filterItems(sortedArray, item).map((employee) => (
             <li key={employee.id}>
-              <input type="checkbox" />
+              <input type="checkbox" onChange={myChangeHandler} />
               {employee.lastName} {employee.firstName}
             </li>
           ))}
